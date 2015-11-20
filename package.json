@@ -1,0 +1,47 @@
+{
+  "name": "bluecore-classnames",
+  "version": "0.0.1",
+  "description": "Automatic class builder for React",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/jest-cli/bin/jest.js",
+    "lint": "./node_modules/coffeelint/bin/coffeelint -r -f coffeelint.json lib/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TriggerMail/bluecore-classnames.git"
+  },
+  "author": "Pavel Vlasov <freakycue@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TriggerMail/bluecore-classnames/issues"
+  },
+  "homepage": "https://github.com/TriggerMail/bluecore-classnames",
+  "dependencies": {
+    "underscore": "^1.8.3"
+  },
+  "peerDependencies": {
+    "react": "^0.14.3"
+  },
+  "devDependencies": {
+    "coffee-script": "^1.10.0",
+    "coffeelint": "^1.14.1",
+    "jest-cli": "0.4.x",
+    "react-addons-test-utils": "^0.14.3",
+    "react-dom": "^0.14.3"
+  },
+  "jest": {
+    "scriptPreprocessor": "./jest-preprocessor.js",
+    "testFileExtensions": [
+      "coffee"
+    ],
+    "moduleFileExtensions": [
+      "coffee",
+      "js"
+    ]
+  },
+  "pre-commit": [
+    "lint",
+    "test"
+  ]
+}
