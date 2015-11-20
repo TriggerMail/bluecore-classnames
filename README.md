@@ -39,7 +39,12 @@ div className: 'base',
 ```
 className: ?<String>, additional className
 element: <String>, name of your element
-modifiers: ?<[String] || {}>, where object key is modifier name
+modifiers: ?<[String] || Object>, where object key is modifier name
+```
+
+`cx` has the following declaration:
+```
+cx(element: <String>, modifiers: ?<Array, Object>)
 ```
 
 Also you can set delimeters:
