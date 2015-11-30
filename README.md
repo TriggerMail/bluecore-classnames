@@ -35,6 +35,8 @@ div className: 'base',
 
 ### How to use
 
+Just apply `ClassNames` decorator and rename `render` method into `_render`.
+
 `ClassNames` decorator accept className in format
 ```
 className: ?<String>, additional className
