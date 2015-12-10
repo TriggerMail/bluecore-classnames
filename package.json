@@ -2,11 +2,12 @@
   "name": "bluecore-classnames",
   "version": "0.1.0",
   "description": "Automatic class builder for React components",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "./node_modules/jest-cli/bin/jest.js",
     "lint": "./node_modules/coffeelint/bin/coffeelint -r -f coffeelint.json lib/",
-    "build": "./node_modules/webpack/bin/webpack.js --progress --colors"
+    "build": "./node_modules/webpack/bin/webpack.js --progress --colors",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
