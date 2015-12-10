@@ -2,6 +2,12 @@
   "name": "bluecore-classnames",
   "version": "0.1.0",
   "description": "Automatic class builder for React components",
+  "keywords": [
+    "react",
+    "classnames",
+    "classes",
+    "bem"
+  ],
   "main": "dist/index.js",
   "scripts": {
     "test": "./node_modules/jest-cli/bin/jest.js",
