@@ -1,7 +1,7 @@
 # bluecore-classnames
 
 Automatic class builder for React
-Inspired by https://en.bem.info/ class naming.
+Inspired by [BEM](https://en.bem.info/) class naming.
 
 ### Example
 
@@ -65,6 +65,8 @@ module.exports = MyComponent
 ```
 
 ### How to use
+
+!!! To use es6 decorators you need to compile your code with [babel](https://babeljs.io/) compiler with [stage-1](https://babeljs.io/docs/plugins/preset-stage-1/) preset enabled.
 
 Just apply `ClassNames` decorator and rename `render` method into `_render`.
 
