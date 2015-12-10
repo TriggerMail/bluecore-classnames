@@ -1,8 +1,48 @@
 # bluecore-classnames
 
 Automatic class builder for React
+Inspired by https://en.bem.info/ class naming.
 
 ### Example
+
+```js
+import React from 'react';
+import {cx, ClassNames} from 'bluecore-classnames';
+
+@ClassNames
+class MyComponent extends React.Component
+  constructor(props) {
+    super(props);
+    this.state = {hovered: true};
+  }
+  
+  _render() {
+    return (
+      <div className={cx('base')}>
+        <div className={cx('inner')}>
+          <div className={cx('first', ['active'])}>
+          <div className>={cx('second', {hovered: this.state.hovered})}</div>
+        </div>
+      </div>
+    );
+  }
+
+export default MyComponent
+
+```
+
+Will be transformed into
+
+```jade
+div className: 'base',
+  div className: 'base_inner',
+    div className: 'base_inner_first base_inner_first--active'
+    div className: 'base_inner_second base_inner_second--hovered'
+```
+
+It can be very helpfull if you're using [less](http://lesscss.org/) or [sass](http://sass-lang.com/).
+
+If you're using coffeescript:
 
 ```coffee
 React = require 'react'
@@ -24,15 +64,6 @@ module.exports = MyComponent
 
 ```
 
-Will be transformed into
-
-```coffee
-div className: 'base',
-  div className: 'base_inner',
-    div className: 'base_inner_first base_inner_first--active'
-    div className: 'base_inner_second base_inner_second--hovered'
-```
-
 ### How to use
 
 Just apply `ClassNames` decorator and rename `render` method into `_render`.
@@ -51,7 +82,25 @@ cx(element: <String>, modifiers: ?<Array, Object>)
 
 Also you can set delimeters:
 
-```coffee
-Compiler = require 'bluecore-classnames/Compiler.coffee'
-Compiler.setDelimeters '__', '_'
+```js
+import {compiler} from 'bluecore-classnames';
+compiler.setDelimeters('__', '_');
+```
+
+If decorator found `className`s with `<string>` type it treats them as usual classNames.
+```js
+import {compiler} from 'bluecore-classnames';
+compiler.setStrict(false);
+```
+will make compiler to treat string classNames as element,
+so code below will work too:
+```js
+
+<div className={'base'}>
+  <div className={'inner'}>
+    <div className={cx('first', ['active'])}>
+    <div className>={cx('second', {hovered: this.state.hovered})}</div>
+  </div>
+</div>
+
 ```
