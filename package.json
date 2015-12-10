@@ -1,7 +1,7 @@
 {
   "name": "bluecore-classnames",
-  "version": "0.0.1",
-  "description": "Automatic class builder for React",
+  "version": "0.1.0",
+  "description": "Automatic class builder for React components",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/jest-cli/bin/jest.js",
@@ -21,7 +21,7 @@
     "underscore": "^1.8.3"
   },
   "peerDependencies": {
-    "react": "^0.14.3"
+    "react": ">=0.14.0"
   },
   "devDependencies": {
     "coffee-script": "^1.10.0",

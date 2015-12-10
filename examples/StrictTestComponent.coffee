@@ -3,20 +3,20 @@ React = require 'react'
 
 {div} = React.DOM
 
-ClassNamesDecorator = require './Decorator.coffee'
-cx = require './ClassNames.coffee'
+ClassNamesDecorator = require '../Decorator.coffee'
+cx = require '../ClassNames.coffee'
 
 
-class ChildTestComponent extends ClassNamesDecorator Component
+class ChildStrictTestComponent extends ClassNamesDecorator Component
   _render: ->
     div className: cx('base-inner'),
       div className: cx('inner'),
         'Inner'
 
-ChildTestComponent = React.createFactory ChildTestComponent
+ChildStrictTestComponent = React.createFactory ChildStrictTestComponent
 
 
-class TestComponent extends ClassNamesDecorator Component
+class StrictTestComponent extends ClassNamesDecorator Component
   _render: ->
     div
       className:
@@ -31,9 +31,9 @@ class TestComponent extends ClassNamesDecorator Component
           active: true
           hovered: false
         ),
-          ChildTestComponent {}
+          ChildStrictTestComponent {}
       div className: cx('footer'),
         'Footer'
 
 
-module.exports = React.createFactory TestComponent
+module.exports = React.createFactory StrictTestComponent

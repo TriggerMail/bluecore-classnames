@@ -9,6 +9,7 @@ defaultModifierDelimeter = '--'
 class Compiler
   constructor: (config={}) ->
     @config = _.defaults config,
+      isStrict: true
       elementDelimeter: defaultElementDelimeter
       modifierDelimeter: defaultModifierDelimeter
 
@@ -20,9 +21,22 @@ class Compiler
   buildClassName: (parentClass, config) ->
     {elementDelimeter, modifierDelimeter} = @config
 
-    {element, modifiers} = config
+    element = null
+    modifiers = null
     newParentClass = parentClass
     modifiersClasses = ''
+
+    if _.isString config
+      if @config.isStrict
+        # pass if strict mode is enabled
+        return {
+          parentClass: newParentClass
+          className: config
+        }
+      else
+        element = config
+    else
+      {element, modifiers} = config
 
     if element
       if newParentClass
@@ -50,7 +64,7 @@ class Compiler
       {className} = child.props
       props = {}
 
-      if className and _.isObject className
+      if className
         # generate new parentClass to pass it futher and new className
         {parentClass, className} = @buildClassName parentClass, className
         props.className = className
@@ -63,6 +77,9 @@ class Compiler
 
   traverse: (root) =>
     @traverseChild root, ''
+
+  setStrict: (isStrict) ->
+    @config.isStrict = isStrict
 
 
 module.exports = new Compiler
