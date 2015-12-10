@@ -1,6 +1,5 @@
 __tests__
 examples
-*.coffee
 coffeelint.json
 jest-preprocessor.js
 webpack.*
