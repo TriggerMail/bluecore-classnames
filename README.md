@@ -1,7 +1,6 @@
 # bluecore-classnames
 
-Automatic class builder for React
-Inspired by [BEM](https://en.bem.info/) class naming.
+Utility to build [BEM](https://en.bem.info/) class names for React components.
 
 ### Example
 
