@@ -106,3 +106,5 @@ so code below will work too:
 </div>
 
 ```
+
+### License: MIT
