@@ -70,11 +70,11 @@ class Compiler
         props.className = className
 
       React.cloneElement child, props,
-        if React.Children.count child.props.children > 1
+        if React.Children.count child.props.children is 1
+          @traverseChild React.Children.only child.props.children
+        else
           React.Children.map child.props.children, (child) =>
             @traverseChild child, parentClass
-        else
-          @traverseChild React.Children.only child.props.children
     else
       child
 
