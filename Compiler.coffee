@@ -58,7 +58,6 @@ class Compiler
     className: _.compact([config.className, newParentClass, modifiersClasses])
       .join ' '
 
-
   traverseChild: (child, parentClass) ->
     if React.isValidElement child
       {className} = child.props
@@ -70,8 +69,11 @@ class Compiler
         props.className = className
 
       React.cloneElement child, props,
-        React.Children.map child.props.children, (child) =>
-          @traverseChild child, parentClass
+        if Array.isArray child.props.children
+          React.Children.map child.props.children, (child) =>
+            @traverseChild child, parentClass
+        else
+          @traverseChild child.props.children, parentClass
     else
       child
 
