@@ -69,11 +69,11 @@ class Compiler
         props.className = className
 
       React.cloneElement child, props,
-        if not Array.isArray child.props.children
-          @traverseChild child.props.children, parentClass
-        else
+        if Array.isArray child.props.children
           React.Children.map child.props.children, (child) =>
             @traverseChild child, parentClass
+        else
+          @traverseChild child.props.children, parentClass
     else
       child
 
