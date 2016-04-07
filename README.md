@@ -15,7 +15,7 @@ class MyComponent extends React.Component
     this.state = {hovered: true};
   }
   
-  _render() {
+  render() {
     return (
       <div className={cx('base')}>
         <div className={cx('inner')}>
@@ -67,7 +67,8 @@ module.exports = MyComponent
 
 !!! To use es6 decorators you need to compile your code with [babel](https://babeljs.io/) compiler with [stage-1](https://babeljs.io/docs/plugins/preset-stage-1/) preset enabled.
 
-Just apply `ClassNames` decorator and rename `render` method into `_render`.
+Just apply `ClassNames` decorator to your React class.
+To apply decorator to coffeescript class like in the example, you need to rename `render` method to `_render`.
 
 `ClassNames` decorator accept className in format
 ```
