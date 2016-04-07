@@ -7,6 +7,7 @@ _ = require 'underscore'
 compiler = require '../Compiler.coffee'
 StrictTestComponent = require '../examples/StrictTestComponent.coffee'
 TestComponent = require '../examples/TestComponent.coffee'
+DecoratedComponent = require '../examples/DecoratedTestComponent.coffee'
 
 classTree =
   className: 'my-base-class'
@@ -86,3 +87,8 @@ describe 'ClassNames', ->
 
   it 'should build classes in forgiving mode', ->
     checkClasses component, classTree, ''
+
+  it 'should render decorated class properly', ->
+    component = findDOMNode renderIntoDocument DecoratedComponent()
+    expect(component).toBeDefined()
+    checkClasses(component, classTree, '')
