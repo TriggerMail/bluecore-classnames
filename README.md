@@ -64,21 +64,6 @@ module.exports = MyComponent
 
 ```
 
-also you can use it with stateless components:
-
-```js
-import React, {PropTypes} from 'react';
-import {classNames} from 'bluecore-classnames';
-
-@classNames
-function MyComponent(props) {
-  return <div>...</div>;
-}
-
-MyComponent.propTypes = {...};
-
-```
-
 ### How to use
 
 !!! To use es6 decorators you need to compile your code with [babel](https://babeljs.io/) compiler with [stage-1](https://babeljs.io/docs/plugins/preset-stage-1/) preset enabled.
