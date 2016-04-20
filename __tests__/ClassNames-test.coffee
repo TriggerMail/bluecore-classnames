@@ -11,6 +11,7 @@ _ = require 'underscore'
 
 Compiler = require '../Compiler.coffee'
 Decorator = require '../Decorator.coffee'
+functionalDecorator = require '../FunctionDecorator.coffee'
 {
   StrictTestComponent,
   ChildStrictTestComponent
@@ -19,6 +20,10 @@ Decorator = require '../Decorator.coffee'
   TestComponent,
   ChildTestComponent
 } = require '../examples/TestComponent.coffee'
+{
+  FunctionalComponent,
+  FunctionalChildComponent
+} = require '../examples/FunctionalComponent.coffee'
 
 classTree =
   className: 'my-base-class'
@@ -115,4 +120,16 @@ describe 'ClassNames', ->
     expect(component).toBeTruthy()
 
   it 'should render wrapped component properly', ->
+    checkClasses component, classTree, ''
+
+  it 'should wrap functional component', ->
+    component = render(
+      functionalDecorator(isStrict: false)(FunctionalComponent),
+      createElement(
+        functionalDecorator(isStrict: false)(FunctionalChildComponent))
+    )
+
+    expect(component).toBeDefined()
+    expect(functionalDecorator(FunctionalComponent).propTypes)
+      .toEqual(foo: 'bar')
     checkClasses component, classTree, ''
