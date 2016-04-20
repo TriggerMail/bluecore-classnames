@@ -1,6 +1,6 @@
 {
   "name": "bluecore-classnames",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "Automatic class builder for React components",
   "keywords": [
     "react",

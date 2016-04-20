@@ -1,13 +1,24 @@
 jest.autoMockOff()
 
+jest = jest
+
+{describe, it, expect} = global
+
+{createFactory, createElement} = require 'react'
 {findDOMNode} = require 'react-dom'
 {renderIntoDocument} = require 'react-addons-test-utils'
 _ = require 'underscore'
 
-compiler = require '../Compiler.coffee'
-StrictTestComponent = require '../examples/StrictTestComponent.coffee'
-TestComponent = require '../examples/TestComponent.coffee'
-DecoratedComponent = require '../examples/DecoratedTestComponent.coffee'
+Compiler = require '../Compiler.coffee'
+Decorator = require '../Decorator.coffee'
+{
+  StrictTestComponent,
+  ChildStrictTestComponent
+} = require '../examples/StrictTestComponent.coffee'
+{
+  TestComponent,
+  ChildTestComponent
+} = require '../examples/TestComponent.coffee'
 
 classTree =
   className: 'my-base-class'
@@ -36,6 +47,8 @@ classTree =
 strictComponent = null
 component = null
 
+render = (Component, child) ->
+  return findDOMNode(renderIntoDocument(createFactory(Component)({}, child)))
 
 checkClasses = (element, classConfig, parentClass) ->
   expect(element).toBeTruthy()
@@ -74,21 +87,32 @@ checkClasses = (element, classConfig, parentClass) ->
 
 describe 'ClassNames', ->
   it 'should render strict component into DOM', ->
-    strictComponent = findDOMNode renderIntoDocument StrictTestComponent()
+    strictComponent = render(
+      Decorator(StrictTestComponent),
+      createElement(Decorator(ChildStrictTestComponent)))
     expect(strictComponent).toBeTruthy()
 
   it 'should build classes', ->
     checkClasses strictComponent, classTree, ''
 
   it 'should render component into DOM', ->
-    compiler.setStrict false
-    component = findDOMNode renderIntoDocument TestComponent()
+    Compiler.setDefaults(isStrict: false)
+    component = render(
+      Decorator(TestComponent),
+      createElement(Decorator(ChildTestComponent)))
     expect(component).toBeTruthy()
 
   it 'should build classes in forgiving mode', ->
     checkClasses component, classTree, ''
 
-  it 'should render decorated class properly', ->
-    component = findDOMNode renderIntoDocument DecoratedComponent()
-    expect(component).toBeDefined()
-    checkClasses(component, classTree, '')
+  it 'should wrap component with config', ->
+    Compiler.setDefaults(isStrict: true)
+
+    component = render(
+      Decorator(isStrict: false)(TestComponent),
+      createElement(Decorator(isStrict: false)(ChildTestComponent))
+    )
+    expect(component).toBeTruthy()
+
+  it 'should render wrapped component properly', ->
+    checkClasses component, classTree, ''

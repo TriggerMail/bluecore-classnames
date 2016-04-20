@@ -1,17 +1,15 @@
 React = require 'react'
 _ = require 'underscore'
 
-
-defaultElementDelimeter = '_'
-defaultModifierDelimeter = '--'
+defaultConfig =
+  elementDelimeter: '_'
+  modifierDelimeter: '--'
+  isStrict: true
 
 
 class Compiler
   constructor: (config={}) ->
-    @config = _.defaults config,
-      isStrict: true
-      elementDelimeter: defaultElementDelimeter
-      modifierDelimeter: defaultModifierDelimeter
+    @config = _.defaults(config, defaultConfig)
 
   setDelimeters: (elementDelimeter, modifierDelimeter) ->
     @config =
@@ -84,4 +82,6 @@ class Compiler
     @config.isStrict = isStrict
 
 
-module.exports = new Compiler
+module.exports = Compiler
+module.exports.setDefaults = (config) ->
+  _.extend(defaultConfig, config)

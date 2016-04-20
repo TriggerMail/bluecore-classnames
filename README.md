@@ -14,7 +14,7 @@ class MyComponent extends React.Component
     super(props);
     this.state = {hovered: true};
   }
-  
+
   render() {
     return (
       <div className={cx('base')}>
@@ -52,13 +52,13 @@ class MyComponent extends ClassNames React.Component
   constructor: (props) ->
     super props
     @state = hovered: true
-    
+
   _render: ->
     div className: cx('base'),
       div className: cx('inner'),
         div className: cx('first', ['active'])
         div className: cx('second', hovered: @state.hovered)
-  
+
 module.exports = MyComponent
 
 ```
@@ -82,17 +82,21 @@ modifiers: ?<[String] || Object>, where object key is modifier name
 cx(element: <String>, modifiers: ?<Array, Object>)
 ```
 
-Also you can set delimeters:
+Also you can set default values for compiler:
 
 ```js
-import {compiler} from 'bluecore-classnames';
-compiler.setDelimeters('__', '_');
+import {Compiler} from 'bluecore-classnames';
+Compiler.setDefaults({
+  isStrict: false,
+  elementDelimeter: '-',
+  modifierDelimeter: '__'
+});
 ```
 
 If decorator found `className`s with `<string>` type it treats them as usual classNames.
 ```js
-import {compiler} from 'bluecore-classnames';
-compiler.setStrict(false);
+import {Compiler} from 'bluecore-classnames';
+Compiler.setDefaults({isStrict: false});
 ```
 will make compiler to treat string classNames as element,
 so code below will work too:
