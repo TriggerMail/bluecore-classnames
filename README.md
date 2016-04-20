@@ -9,7 +9,7 @@ import React from 'react';
 import {cx, ClassNames} from 'bluecore-classnames';
 
 @ClassNames
-class MyComponent extends React.Component
+class MyComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {hovered: true};
@@ -25,6 +25,7 @@ class MyComponent extends React.Component
       </div>
     );
   }
+}
 
 export default MyComponent
 
@@ -109,6 +110,14 @@ so code below will work too:
   </div>
 </div>
 
+```
+
+or you can pass config directly to decorator:
+```js
+@ClassNames({isStrict: false})
+class MyComponent extends React.Component {
+  ...
+}
 ```
 
 ### License: MIT
