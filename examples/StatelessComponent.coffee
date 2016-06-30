@@ -5,13 +5,13 @@ React = require 'react'
 cx = require '../ClassNames.coffee'
 
 
-FunctionalChildComponent = ->
+StatelessChildComponent = ->
   div className: 'base-inner',
     div className: 'inner',
       'Inner'
 
 
-FunctionalComponent = (props, children) ->
+StatelessComponent = (props, children) ->
   div
     className:
       className: 'my-base-class'
@@ -29,9 +29,6 @@ FunctionalComponent = (props, children) ->
     div className: 'footer',
       'Footer'
 
-FunctionalComponent.propTypes =
-  foo: 'bar'
 
-
-module.exports.FunctionalComponent = FunctionalComponent
-module.exports.FunctionalChildComponent = FunctionalChildComponent
+module.exports.StatelessComponent = StatelessComponent
+module.exports.StatelessChildComponent = StatelessChildComponent

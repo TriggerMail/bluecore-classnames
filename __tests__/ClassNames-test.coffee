@@ -4,14 +4,13 @@ jest = jest
 
 {describe, it, expect} = global
 
-{createFactory, createElement} = require 'react'
+{createElement} = require 'react'
 {findDOMNode} = require 'react-dom'
 {renderIntoDocument} = require 'react-addons-test-utils'
 _ = require 'underscore'
 
 Compiler = require '../Compiler.coffee'
 Decorator = require '../Decorator.coffee'
-functionalDecorator = require '../FunctionDecorator.coffee'
 {
   StrictTestComponent,
   ChildStrictTestComponent
@@ -21,9 +20,9 @@ functionalDecorator = require '../FunctionDecorator.coffee'
   ChildTestComponent
 } = require '../examples/TestComponent.coffee'
 {
-  FunctionalComponent,
-  FunctionalChildComponent
-} = require '../examples/FunctionalComponent.coffee'
+  StatelessComponent,
+  StatelessChildComponent
+} = require '../examples/StatelessComponent.coffee'
 
 classTree =
   className: 'my-base-class'
@@ -53,7 +52,7 @@ strictComponent = null
 component = null
 
 render = (Component, child) ->
-  return findDOMNode(renderIntoDocument(createFactory(Component)({}, child)))
+  return findDOMNode(renderIntoDocument(createElement(Component, {}, child)))
 
 checkClasses = (element, classConfig, parentClass) ->
   expect(element).toBeTruthy()
@@ -122,14 +121,11 @@ describe 'ClassNames', ->
   it 'should render wrapped component properly', ->
     checkClasses component, classTree, ''
 
-  it 'should wrap functional component', ->
+  it 'should wrap stateless component', ->
     component = render(
-      functionalDecorator(isStrict: false)(FunctionalComponent),
-      createElement(
-        functionalDecorator(isStrict: false)(FunctionalChildComponent))
+      Decorator(isStrict: false)(StatelessComponent)
+      createElement(Decorator(isStrict: false)(StatelessChildComponent))
     )
 
     expect(component).toBeDefined()
-    expect(functionalDecorator(FunctionalComponent).propTypes)
-      .toEqual(foo: 'bar')
     checkClasses component, classTree, ''
