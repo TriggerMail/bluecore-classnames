@@ -7,10 +7,13 @@ getDisplayName = (WrappedComponent) ->
 
 module.exports = (config) ->
   decorator = (WrappedComponent) ->
-    isStateless = not WrappedComponent::render and not WrappedComponent::_render
+    isStateless = not WrappedComponent.prototype or
+      _.isEmpty(WrappedComponent.prototype)
 
     if isStateless
       class StatelessWrapper extends Component
+        @displayName =
+          "StatelessClassNames(#{getDisplayName(WrappedComponent)})"
         render: ->
           compiler.traverse(WrappedComponent(@props, @props.children))
 
