@@ -8,7 +8,7 @@ getDisplayName = (WrappedComponent) ->
 module.exports = (config) ->
   decorator = (WrappedComponent) ->
     isStateless = not WrappedComponent.prototype or
-      _.isEmpty(WrappedComponent.prototype)
+      not WrappedComponent.prototype.render;
 
     if isStateless
       class StatelessWrapper extends Component
