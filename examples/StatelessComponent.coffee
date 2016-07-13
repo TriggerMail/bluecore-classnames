@@ -29,6 +29,5 @@ StatelessComponent = (props, children) ->
     div className: 'footer',
       'Footer'
 
-
 module.exports.StatelessComponent = StatelessComponent
 module.exports.StatelessChildComponent = StatelessChildComponent
