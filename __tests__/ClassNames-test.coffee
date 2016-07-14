@@ -121,7 +121,7 @@ describe 'ClassNames', ->
   it 'should render wrapped component properly', ->
     checkClasses component, classTree, ''
 
-  xit 'should wrap stateless component', ->
+  it 'should wrap stateless component', ->
     component = render(
       Decorator(isStrict: false)(StatelessComponent)
       createElement(Decorator(isStrict: false)(StatelessChildComponent))

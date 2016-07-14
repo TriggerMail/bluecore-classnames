@@ -7,7 +7,10 @@ getDisplayName = (WrappedComponent) ->
 
 module.exports = (config) ->
   decorator = (WrappedComponent) ->
-    isStateless = not WrappedComponent::
+    isStateless = (not WrappedComponent.prototype or
+      (not WrappedComponent.isReactComponent and
+      not WrappedComponent::render and
+      not WrappedComponent::componentDidMount))
 
     if isStateless
       class StatelessWrapper extends Component
