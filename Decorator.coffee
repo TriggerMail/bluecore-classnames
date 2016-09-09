@@ -17,7 +17,7 @@ module.exports = (config) ->
         @displayName =
           "StatelessClassNames(#{getDisplayName(WrappedComponent)})"
         render: ->
-          compiler.traverse(WrappedComponent(@props, @props.children))
+          compiler.traverse(WrappedComponent(@props, @context))
 
       return _.extend(StatelessWrapper, WrappedComponent)
     else
