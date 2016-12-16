@@ -18,15 +18,17 @@ class StrictTestComponent extends Component
     div
       className:
         className: 'my-base-class'
-        element: 'base',
+        element: 'base'
+        _qaClassName: 'test-base',
       div className: cx('header'),
         'Header'
       div className: cx('main'),
-        div className: cx('first', ['hover', 'active']),
+        div className: cx('first', ['hover', 'active'], 'test-first'),
           'First'
         div className: cx('second',
           active: true
-          hovered: false
+          hovered: false,
+          'test-second'
         ),
           @props.children
       div className: cx('footer'),

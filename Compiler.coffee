@@ -5,7 +5,7 @@ defaultConfig =
   elementDelimeter: '_'
   modifierDelimeter: '--'
   isStrict: true
-
+  stripQaClasses: false
 
 class Compiler
   constructor: (config={}) ->
@@ -23,6 +23,7 @@ class Compiler
     modifiers = null
     newParentClass = parentClass
     modifiersClasses = ''
+    _qaClassName = null
 
     if _.isString config
       if @config.isStrict
@@ -34,7 +35,10 @@ class Compiler
       else
         element = config
     else
-      {element, modifiers} = config
+      {element, modifiers, _qaClassName} = config
+
+    if @config.stripQaClasses
+      _qaClassName = null
 
     if element
       if newParentClass
@@ -53,8 +57,12 @@ class Compiler
         .join(' ')
 
     parentClass: newParentClass
-    className: _.compact([config.className, newParentClass, modifiersClasses])
-      .join ' '
+    className: _.compact([
+      config.className
+      newParentClass if element
+      modifiersClasses
+      _qaClassName
+    ]).join ' '
 
   traverseChild: (child, parentClass) ->
     if React.isValidElement child
