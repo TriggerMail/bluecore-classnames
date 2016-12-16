@@ -15,17 +15,15 @@ StatelessComponent = (props, children) ->
   div
     className:
       className: 'my-base-class'
-      element: 'base'
-      _qaClassName: 'test-base',
+      element: 'base',
     div className: 'header',
       'Header'
     div className: 'main',
-      div className: cx('first', ['hover', 'active'], 'test-first'),
+      div className: cx('first', ['hover', 'active']),
         'First'
       div className: cx('second',
         active: true
-        hovered: false,
-        'test-second'
+        hovered: false
       ),
         children
     div className: 'footer',

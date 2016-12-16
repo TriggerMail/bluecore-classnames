@@ -23,8 +23,16 @@ Decorator = require '../Decorator.coffee'
   StatelessComponent,
   StatelessChildComponent
 } = require '../examples/StatelessComponent.coffee'
+{
+  QaClassesComponent,
+  ChildQaClassesComponent
+} = require '../examples/QaClassesComponent.coffee'
+{
+  QaClassesStrictComponent,
+  ChildQaClassesStrictComponent
+} = require '../examples/QaClassesStrictComponent.coffee'
 
-classTree =
+classTreeWithQaClasses =
   className: 'my-base-class'
   block: 'base'
   _qaClassName: 'test-base'
@@ -51,8 +59,18 @@ classTree =
       element: 'footer'
   ]
 
+removeQaClasses = (tree) ->
+  if tree.children
+    children = tree.children.map (child) -> removeQaClasses child
+  Object.assign {}, tree,
+    _qaClassName: undefined
+    children: children
+
+classTree = removeQaClasses classTreeWithQaClasses
+
 strictComponent = null
 component = null
+
 
 render = (Component, child) ->
   return findDOMNode(renderIntoDocument(createElement(Component, {}, child)))
@@ -139,14 +157,50 @@ describe 'ClassNames', ->
     expect(component).toBeDefined()
     checkClasses component, classTree, ''
 
+  it 'should show qa classes', ->
+    Compiler.setDefaults
+      stripQaClasses: false
+      isStrict: false
+
+    component = render(
+      Decorator(QaClassesComponent),
+      createElement(Decorator(ChildQaClassesComponent))
+    )
+    expect(component).toBeTruthy()
+    checkClasses component, classTreeWithQaClasses, '', stripQaClasses: false
+
   it 'should strip qa classes', ->
     Compiler.setDefaults
       stripQaClasses: true
       isStrict: false
 
     component = render(
-      Decorator(TestComponent),
-      createElement(Decorator(ChildTestComponent))
+      Decorator(QaClassesComponent),
+      createElement(Decorator(ChildQaClassesComponent))
     )
     expect(component).toBeTruthy()
-    checkClasses component, classTree, '', stripQaClasses: true
+    checkClasses component, classTreeWithQaClasses, '', stripQaClasses: true
+
+  it 'should show qa classes in strict mode', ->
+    Compiler.setDefaults
+      stripQaClasses: false
+      isStrict: true
+
+    component = render(
+      Decorator(QaClassesStrictComponent),
+      createElement(Decorator(ChildQaClassesStrictComponent))
+    )
+    expect(component).toBeTruthy()
+    checkClasses component, classTreeWithQaClasses, '', stripQaClasses: false
+
+  it 'should strip qa classes in strict mode', ->
+    Compiler.setDefaults
+      stripQaClasses: true
+      isStrict: true
+
+    component = render(
+      Decorator(QaClassesStrictComponent),
+      createElement(Decorator(ChildQaClassesStrictComponent))
+    )
+    expect(component).toBeTruthy()
+    checkClasses component, classTreeWithQaClasses, '', stripQaClasses: true
