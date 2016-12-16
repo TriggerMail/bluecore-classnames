@@ -23,10 +23,19 @@ Decorator = require '../Decorator.coffee'
   StatelessComponent,
   StatelessChildComponent
 } = require '../examples/StatelessComponent.coffee'
+{
+  QaClassesComponent,
+  ChildQaClassesComponent
+} = require '../examples/QaClassesComponent.coffee'
+{
+  QaClassesStrictComponent,
+  ChildQaClassesStrictComponent
+} = require '../examples/QaClassesStrictComponent.coffee'
 
-classTree =
+classTreeWithQaClasses =
   className: 'my-base-class'
   block: 'base'
+  _qaClassName: 'test-base'
   children: [
       element: 'header'
     ,
@@ -34,9 +43,11 @@ classTree =
       children: [
           element: 'first'
           modifiers: ['hover', 'active']
+          _qaClassName: 'test-first'
         ,
           element: 'second'
           modifiers: ['active']
+          _qaClassName: 'test-second'
           children: [
             block: 'base-inner',
             children: [
@@ -48,16 +59,26 @@ classTree =
       element: 'footer'
   ]
 
+removeQaClasses = (tree) ->
+  if tree.children
+    children = tree.children.map (child) -> removeQaClasses child
+  Object.assign {}, tree,
+    _qaClassName: undefined
+    children: children
+
+classTree = removeQaClasses classTreeWithQaClasses
+
 strictComponent = null
 component = null
+
 
 render = (Component, child) ->
   return findDOMNode(renderIntoDocument(createElement(Component, {}, child)))
 
-checkClasses = (element, classConfig, parentClass) ->
+checkClasses = (element, classConfig, parentClass, config={}) ->
   expect(element).toBeTruthy()
 
-  {modifiers, children} = classConfig
+  {modifiers, _qaClassName, children} = classConfig
   expectedClass = ''
   elementClass = element.getAttribute 'class'
 
@@ -76,6 +97,12 @@ checkClasses = (element, classConfig, parentClass) ->
     _.each modifiers, (modifier) ->
       expect(elementClass).toContain "#{expectedClass}--#{modifier}"
 
+  if _qaClassName
+    if config.stripQaClasses
+      expect(elementClass).not.toContain _qaClassName
+    else
+      expect(elementClass).toContain _qaClassName
+
   if children
     _.each children, (child) ->
       newParentClass = expectedClass
@@ -86,7 +113,7 @@ checkClasses = (element, classConfig, parentClass) ->
         selector = child.block
 
       checkClasses element.querySelector(".#{selector}"), child,
-        newParentClass
+        newParentClass, config
 
 
 describe 'ClassNames', ->
@@ -129,3 +156,51 @@ describe 'ClassNames', ->
 
     expect(component).toBeDefined()
     checkClasses component, classTree, ''
+
+  it 'should show qa classes', ->
+    Compiler.setDefaults
+      stripQaClasses: false
+      isStrict: false
+
+    component = render(
+      Decorator(QaClassesComponent),
+      createElement(Decorator(ChildQaClassesComponent))
+    )
+    expect(component).toBeTruthy()
+    checkClasses component, classTreeWithQaClasses, '', stripQaClasses: false
+
+  it 'should strip qa classes', ->
+    Compiler.setDefaults
+      stripQaClasses: true
+      isStrict: false
+
+    component = render(
+      Decorator(QaClassesComponent),
+      createElement(Decorator(ChildQaClassesComponent))
+    )
+    expect(component).toBeTruthy()
+    checkClasses component, classTreeWithQaClasses, '', stripQaClasses: true
+
+  it 'should show qa classes in strict mode', ->
+    Compiler.setDefaults
+      stripQaClasses: false
+      isStrict: true
+
+    component = render(
+      Decorator(QaClassesStrictComponent),
+      createElement(Decorator(ChildQaClassesStrictComponent))
+    )
+    expect(component).toBeTruthy()
+    checkClasses component, classTreeWithQaClasses, '', stripQaClasses: false
+
+  it 'should strip qa classes in strict mode', ->
+    Compiler.setDefaults
+      stripQaClasses: true
+      isStrict: true
+
+    component = render(
+      Decorator(QaClassesStrictComponent),
+      createElement(Decorator(ChildQaClassesStrictComponent))
+    )
+    expect(component).toBeTruthy()
+    checkClasses component, classTreeWithQaClasses, '', stripQaClasses: true

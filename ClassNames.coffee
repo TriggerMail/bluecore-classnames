@@ -6,10 +6,11 @@ toModifiers = (modifiersList) ->
     modifiers[modifier] = true
   modifiers
 
-module.exports = (element, modifiers) ->
+module.exports = (element, modifiers, qaClassName) ->
   element: element
   modifiers:
     if _.isArray modifiers
       toModifiers modifiers
     else
       modifiers
+  _qaClassName: qaClassName
