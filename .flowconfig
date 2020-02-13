@@ -1,0 +1,10 @@
+[ignore]
+.*/dist/.*
+
+[options]
+module.file_ext=.js
+
+server.max_workers=4
+
+[version]
+0.118.0
