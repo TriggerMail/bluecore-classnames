@@ -3,33 +3,42 @@
 import React from 'react';
 import _ from 'underscore';
 
-const defaultConfig = {
-  elementDelimeter: '_',
-  modifierDelimeter: '--',
+// types
+import type {Element} from 'react';
+export type TConfig = {
+  elementDelimiter: string,
+  modifierDelimiter: string,
+  isStrict: boolean,
+  stripQaClasses: boolean
+};
+
+const defaultConfig: TConfig = {
+  elementDelimiter: '_',
+  modifierDelimiter: '--',
   isStrict: true,
   stripQaClasses: false
 };
 
 class Compiler {
-  config: {[string]: string | boolean};
+  config: TConfig;
 
-  constructor(config: {[string]: string | boolean} = {}) {
+  constructor(config: TConfig = {}) {
     this.config = {
       ...config,
       ...defaultConfig
     };
   }
 
-  setDelimeters = (elementDelimeter: string, modifierDelimeter: string) => {
+  setDelimeters = (elementDelimiter: string, modifierDelimiter: string) => {
     this.config = {
       ...this.config,
-      elementDelimeter,
-      modifierDelimeter
+      elementDelimiter,
+      modifierDelimiter
     };
   };
 
-  buildClassName(parentClass: string, config: string) {
-    const {elementDelimeter, modifierDelimeter} = this.config;
+  buildClassName(parentClass: string, config: string | Object) {
+    const {elementDelimiter, modifierDelimiter} = this.config;
 
     let element = null;
     let modifiers = null;
@@ -48,7 +57,9 @@ class Compiler {
         element = config;
       }
     } else {
-      ({element, modifiers, _qaClassName} = config);
+      element = config.element;
+      modifiers = config.modifiers;
+      _qaClassName = config._qaClassName;
     }
 
     if (this.config.stripQaClasses) {
@@ -57,7 +68,7 @@ class Compiler {
 
     if (element) {
       if (newParentClass) {
-        newParentClass += `${elementDelimeter}${element}`;
+        newParentClass += `${elementDelimiter}${element}`;
       } else {
         newParentClass = element;
       }
@@ -68,7 +79,7 @@ class Compiler {
         .chain()
         .map(function(isEnabled, modifier) {
           if (isEnabled) {
-            return `${newParentClass}${modifierDelimeter}${modifier}`;
+            return `${newParentClass}${modifierDelimiter}${modifier}`;
           }
         })
         .compact()
@@ -79,7 +90,7 @@ class Compiler {
     return {
       parentClass: newParentClass,
       className: [
-        config.className,
+        config.className || '',
         element ? newParentClass : undefined,
         modifiersClasses,
         _qaClassName
@@ -89,7 +100,7 @@ class Compiler {
     };
   }
 
-  traverseChild(child, parentClass) {
+  traverseChild(child: Element<any>, parentClass: string) {
     if (React.isValidElement(child)) {
       let {className} = child.props;
       const props = {};
@@ -117,16 +128,17 @@ class Compiler {
     }
   }
 
-  traverse = root => {
+  traverse = (root: Element<any>) => {
     return this.traverseChild(root, '');
   };
 
-  setStrict(isStrict) {
-    return (this.config.isStrict = isStrict);
+  setStrict(isStrict: boolean) {
+    this.config.isStrict = isStrict;
   }
 }
 
 export default Compiler;
-export function setDefaults(config) {
-  return _.extend(defaultConfig, config);
+
+export function setDefaults(config: TConfig) {
+  return {...defaultConfig, ...config};
 }

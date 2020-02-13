@@ -14,7 +14,8 @@
     "test": "./node_modules/jest-cli/bin/jest.js",
     "lint": "./node_modules/.bin/eslint --ext .js .",
     "build": "./node_modules/webpack/bin/webpack.js --progress --colors",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "flow": "flow"
   },
   "repository": {
     "type": "git",
