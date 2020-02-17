@@ -42,34 +42,11 @@ div className: 'base',
 
 It can be very helpfull if you're using [less](http://lesscss.org/) or [sass](http://sass-lang.com/).
 
-If you're using coffeescript:
-
-```coffee
-React = require 'react'
-{div} = React.DOM
-{cx, ClassNames} = require 'bluecore-classnames/index.coffee'
-
-class MyComponent extends ClassNames React.Component
-  constructor: (props) ->
-    super props
-    @state = hovered: true
-
-  _render: ->
-    div className: cx('base'),
-      div className: cx('inner'),
-        div className: cx('first', ['active'])
-        div className: cx('second', hovered: @state.hovered)
-
-module.exports = MyComponent
-
-```
-
 ### How to use
 
 !!! To use es6 decorators you need to compile your code with [babel](https://babeljs.io/) compiler with [stage-1](https://babeljs.io/docs/plugins/preset-stage-1/) preset enabled.
 
 Just apply `ClassNames` decorator to your React class.
-To apply decorator to coffeescript class like in the example, you need to rename `render` method to `_render`.
 
 `ClassNames` decorator accept className in format
 ```

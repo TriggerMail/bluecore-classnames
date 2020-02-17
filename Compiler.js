@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react';
-import _ from 'underscore';
 
 // types
 import type {Element} from 'react';
@@ -75,15 +74,13 @@ class Compiler {
     }
 
     if (modifiers) {
-      modifiersClasses = _(modifiers)
-        .chain()
-        .map(function(isEnabled: boolean, modifier: string) {
-          if (isEnabled) {
-            return `${newParentClass}${modifierDelimiter}${modifier}`;
+      modifiersClasses = Object.entries(modifiers)
+        .reduce((res: string[], [key, value]: [string, mixed]) => {
+          if (value) {
+            return [...res, `${newParentClass}${modifierDelimiter}${key}`];
           }
-        })
-        .compact()
-        .value()
+          return res;
+        }, [])
         .join(' ');
     }
 

@@ -2,3 +2,10 @@ __tests__
 examples
 jest-preprocessor.js
 webpack.*
+.idea
+.eslintignore
+.flowconfig
+.nvmrc
+.prettierrc
+.eslintrc.js
+babel.config.js
