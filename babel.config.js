@@ -18,8 +18,6 @@ module.exports = api => {
       '@babel/preset-react',
       '@babel/preset-flow'
     ],
-    plugins: [
-      ['@babel/plugin-proposal-class-properties', {loose: true}]
-    ],
+    plugins: [['@babel/plugin-proposal-class-properties', {loose: true}]]
   };
 };

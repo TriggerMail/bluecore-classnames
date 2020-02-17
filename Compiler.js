@@ -12,20 +12,20 @@ export type TConfig = {
   stripQaClasses: boolean
 };
 
-const defaultConfig: TConfig = {
-  elementDelimiter: '_',
-  modifierDelimiter: '--',
-  isStrict: true,
-  stripQaClasses: false
-};
-
 class Compiler {
   config: TConfig;
 
+  static defaultConfig: TConfig = {
+    elementDelimiter: '_',
+    modifierDelimiter: '--',
+    isStrict: true,
+    stripQaClasses: false
+  };
+
   constructor(config: TConfig = {}) {
     this.config = {
-      ...config,
-      ...defaultConfig
+      ...Compiler.defaultConfig,
+      ...config
     };
   }
 
@@ -77,7 +77,7 @@ class Compiler {
     if (modifiers) {
       modifiersClasses = _(modifiers)
         .chain()
-        .map(function(isEnabled, modifier) {
+        .map(function(isEnabled: boolean, modifier: string) {
           if (isEnabled) {
             return `${newParentClass}${modifierDelimiter}${modifier}`;
           }
@@ -95,7 +95,7 @@ class Compiler {
         modifiersClasses,
         _qaClassName
       ]
-        .filter(val => Boolean(val))
+        .filter((val: any) => Boolean(val))
         .join(' ')
     };
   }
@@ -103,25 +103,25 @@ class Compiler {
   traverseChild(child: Element<any>, parentClass: string) {
     if (React.isValidElement(child)) {
       let {className} = child.props;
+      let usedParentClass = parentClass;
+
       const props = {};
 
       if (className) {
         // generate new parentClass to pass it futher and new className
-        ({parentClass, className} = this.buildClassName(
-          parentClass,
-          className
-        ));
-        props.className = className;
+        const generatedClassName = this.buildClassName(parentClass, className);
+        props.className = generatedClassName.className;
+        usedParentClass = generatedClassName.parentClass;
       }
 
       return React.cloneElement(
         child,
         props,
         Array.isArray(child.props.children)
-          ? React.Children.map(child.props.children, child => {
-              return this.traverseChild(child, parentClass);
+          ? React.Children.map(child.props.children, (child: Element<any>) => {
+              return this.traverseChild(child, usedParentClass);
             })
-          : this.traverseChild(child.props.children, parentClass)
+          : this.traverseChild(child.props.children, usedParentClass)
       );
     } else {
       return child;
@@ -135,10 +135,10 @@ class Compiler {
   setStrict(isStrict: boolean) {
     this.config.isStrict = isStrict;
   }
+
+  static setDefaults(config: TConfig) {
+    Compiler.defaultConfig = {...Compiler.defaultConfig, ...config};
+  }
 }
 
 export default Compiler;
-
-export function setDefaults(config: TConfig) {
-  return {...defaultConfig, ...config};
-}

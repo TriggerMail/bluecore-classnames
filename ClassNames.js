@@ -12,8 +12,8 @@ const toModifiers = function(modifiersList: string[]): {[string]: boolean} {
 
 export default function(
   element: string,
-  modifiers: string | string[],
-  qaClassName: string
+  modifiers?: string | string[] | {[string]: boolean},
+  qaClassName?: string
 ) {
   return {
     element,

@@ -1,44 +1,48 @@
+// @flow
+import React from 'react';
+
 import Compiler from './Compiler';
 
-const getDisplayName = WrappedComponent =>
+// types
+import type {TConfig} from './Compiler';
+
+const getDisplayName = (WrappedComponent: any) =>
   WrappedComponent.displayName || WrappedComponent.name || 'Component';
 
-export default function(config) {
+export default function(config: TConfig) {
   let compiler;
-  const decorator = function(WrappedComponent) {
-    return function(props) {
-      const isStateless =
-        !WrappedComponent.prototype ||
-        (!WrappedComponent.isReactComponent &&
-          !WrappedComponent.prototype.render &&
-          !WrappedComponent.prototype.componentDidMount);
+  const decorator = function(WrappedComponent: any) {
+    const isStateless =
+      !WrappedComponent.prototype ||
+      (!WrappedComponent.isReactComponent &&
+        !WrappedComponent.prototype.render &&
+        !WrappedComponent.prototype.componentDidMount);
 
-      if (isStateless) {
+    if (isStateless) {
+      return function ClassNamesComponent(props: Object) {
         return compiler.traverse(WrappedComponent(props));
-      } else {
-        class Wrapper extends WrappedComponent {
-          static initClass() {
-            this.displayName = `ClassNames(${getDisplayName(
-              WrappedComponent
-            )})`;
-          }
-
-          render() {
-            if (WrappedComponent.prototype.render) {
-              return compiler.traverse(super.render());
-            } else {
-              return compiler.traverse(
-                WrappedComponent(this.props, this.props.children)
-              );
-            }
-          }
+      };
+    } else {
+      class Wrapper extends WrappedComponent {
+        static initClass() {
+          this.displayName = `ClassNames(${getDisplayName(WrappedComponent)})`;
         }
 
-        Wrapper.initClass();
-
-        return Wrapper;
+        render() {
+          if (WrappedComponent.prototype.render) {
+            return compiler.traverse(super.render());
+          } else {
+            return compiler.traverse(
+              WrappedComponent(this.props, this.props.children)
+            );
+          }
+        }
       }
-    };
+
+      Wrapper.initClass();
+
+      return Wrapper;
+    }
   };
 
   if (typeof config === 'function') {
