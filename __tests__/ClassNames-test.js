@@ -66,7 +66,7 @@ const removeQaClasses = function(tree) {
 const classTree = removeQaClasses(classTreeWithQaClasses);
 
 const renderComponent = (Component, child) => {
-  const {container} =  render(<Component>{createElement(child)}</Component>);
+  const {container} = render(<Component>{createElement(child)}</Component>);
   return container.firstChild;
 };
 

@@ -54,6 +54,7 @@
     "eslint-plugin-react": "7.18.3",
     "eslint-plugin-react-hooks": "1.7.0",
     "flow-bin": "0.118.0",
+    "husky": "3.1.0",
     "jest-cli": "24.8.0",
     "prettier": "1.19.1",
     "react": "16.12.0",
@@ -66,8 +67,9 @@
       ".*": "./jest-preprocessor.js"
     }
   },
-  "pre-commit": [
-    "lint",
-    "test"
-  ]
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm run flow && npm run test"
+    }
+  }
 }

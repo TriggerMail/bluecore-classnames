@@ -1,6 +1,4 @@
 // @flow
-import React from 'react';
-
 import Compiler from './Compiler';
 
 // types
