@@ -7,11 +7,7 @@ module.exports = {
     if (path.match(/\.(s?css)/)) {
       return;
     }
-    if (
-      path.indexOf('node_modules') === -1 ||
-      path.indexOf('bluecore-ui-kit') > -1 ||
-      path.indexOf('bluecore-api-lib') > -1
-    ) {
+    if (path.indexOf('node_modules') === -1) {
       return babelJest.process(src, path, ...rest);
     }
     return src;
