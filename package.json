@@ -15,7 +15,6 @@
     "lint": "./node_modules/.bin/eslint --ext .js .",
     "build": "./node_modules/webpack/bin/webpack.js --progress --colors",
     "prepublish": "npm run build",
-    "postinstall": "npm install && npm run build",
     "flow": "flow"
   },
   "repository": {
