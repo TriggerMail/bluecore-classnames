@@ -1,5 +1,5 @@
 {
-  "name": "bluecore-classnames",
+  "name": "bluecore-classname-builder",
   "version": "1.0.0",
   "description": "Automatic class builder for React components",
   "keywords": [
@@ -21,7 +21,7 @@
     "type": "git",
     "url": "https://github.com/TriggerMail/bluecore-classnames.git"
   },
-  "author": "Pavel Vlasov <freakycue@gmail.com>",
+  "author": "Bluecore Engineering",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/TriggerMail/bluecore-classnames/issues"
