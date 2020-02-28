@@ -1,12 +1,14 @@
-var coffee = require('coffee-script');
+const babelJest = require('babel-jest');
 
 module.exports = {
-  process: function(src, path) {
+  canInstrument: babelJest.canInstrument,
+  getCacheKey: babelJest.getCacheKey,
+  process: function(src, path, ...rest) {
     if (path.match(/\.(s?css)/)) {
       return;
     }
-    if (coffee.helpers.isCoffee(path)) {
-      return coffee.compile(src, {'bare': true});
+    if (path.indexOf('node_modules') === -1) {
+      return babelJest.process(src, path, ...rest);
     }
     return src;
   }

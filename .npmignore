@@ -1,5 +1,11 @@
 __tests__
 examples
-coffeelint.json
 jest-preprocessor.js
 webpack.*
+.idea
+.eslintignore
+.flowconfig
+.nvmrc
+.prettierrc
+.eslintrc.js
+babel.config.js

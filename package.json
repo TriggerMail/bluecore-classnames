@@ -1,6 +1,6 @@
 {
-  "name": "bluecore-classnames",
-  "version": "0.4.0",
+  "name": "bluecore-classname-builder",
+  "version": "1.0.0",
   "description": "Automatic class builder for React components",
   "keywords": [
     "react",
@@ -12,47 +12,61 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "./node_modules/jest-cli/bin/jest.js",
-    "lint": "./node_modules/coffeelint/bin/coffeelint -r -f coffeelint.json lib/",
+    "lint": "./node_modules/.bin/eslint --ext .js .",
     "build": "./node_modules/webpack/bin/webpack.js --progress --colors",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "flow": "flow"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/TriggerMail/bluecore-classnames.git"
   },
-  "author": "Pavel Vlasov <freakycue@gmail.com>",
+  "author": "Bluecore Engineering",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/TriggerMail/bluecore-classnames/issues"
   },
   "homepage": "https://github.com/TriggerMail/bluecore-classnames",
-  "dependencies": {
-    "underscore": "^1.8.3"
-  },
   "peerDependencies": {
-    "react": ">=0.14.0"
+    "react": ">=16.8.6"
   },
   "devDependencies": {
-    "coffee-loader": "^0.7.2",
-    "coffee-script": "^1.10.0",
-    "coffeelint": "^1.14.1",
-    "jest-cli": "^0.8.2",
-    "react-addons-test-utils": "^0.14.3",
-    "react-dom": "^0.14.3",
-    "webpack": "^1.12.9"
+    "@babel/core": "7.8.4",
+    "@babel/plugin-proposal-class-properties": "7.8.3",
+    "@babel/preset-env": "7.8.4",
+    "@babel/preset-flow": "7.8.3",
+    "@babel/preset-react": "7.8.3",
+    "@testing-library/react": "9.4.0",
+    "babel-eslint": "10.0.3",
+    "babel-loader": "8.0.6",
+    "eslint": "6.8.0",
+    "eslint-config-prettier": "6.10.0",
+    "eslint-config-standard-jsx": "8.1.0",
+    "eslint-import-resolver-webpack": "0.12.1",
+    "eslint-plugin-flowtype": "4.6.0",
+    "eslint-plugin-import": "2.20.1",
+    "eslint-plugin-jest": "23.7.0",
+    "eslint-plugin-jsx-a11y": "6.2.3",
+    "eslint-plugin-prettier": "3.1.2",
+    "eslint-plugin-react": "7.18.3",
+    "eslint-plugin-react-hooks": "1.7.0",
+    "flow-bin": "0.118.0",
+    "husky": "3.1.0",
+    "jest-cli": "24.8.0",
+    "prettier": "1.19.1",
+    "react": "16.12.0",
+    "react-dom": "16.12.0",
+    "webpack": "4.16.2",
+    "webpack-cli": "3.3.11"
   },
   "jest": {
-    "scriptPreprocessor": "./jest-preprocessor.js",
-    "testFileExtensions": [
-      "coffee"
-    ],
-    "moduleFileExtensions": [
-      "coffee",
-      "js"
-    ]
+    "transform": {
+      ".*": "./jest-preprocessor.js"
+    }
   },
-  "pre-commit": [
-    "lint",
-    "test"
-  ]
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm run flow && npm run test"
+    }
+  }
 }
