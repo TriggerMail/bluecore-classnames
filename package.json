@@ -1,6 +1,6 @@
 {
   "name": "bluecore-classname-builder",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Automatic class builder for React components",
   "keywords": [
     "react",
@@ -56,6 +56,7 @@
     "prettier": "1.19.1",
     "react": "16.12.0",
     "react-dom": "16.12.0",
+    "serialize-javascript": "3.0.0",
     "webpack": "4.16.2",
     "webpack-cli": "3.3.11"
   },
