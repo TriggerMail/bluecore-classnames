@@ -18,7 +18,7 @@ export default function(config: TConfig) {
 
     if (isStateless) {
       return function ClassNamesComponent(props: Object) {
-        return compiler.traverse(WrappedComponent(props));
+        return compiler.traverse(WrappedComponent(props), props.children);
       };
     } else {
       class Wrapper extends WrappedComponent {
@@ -28,10 +28,11 @@ export default function(config: TConfig) {
 
         render() {
           if (WrappedComponent.prototype.render) {
-            return compiler.traverse(super.render());
+            return compiler.traverse(super.render(), this.props.children);
           } else {
             return compiler.traverse(
-              WrappedComponent(this.props, this.props.children)
+              WrappedComponent(this.props, this.props.children),
+              this.props.children
             );
           }
         }

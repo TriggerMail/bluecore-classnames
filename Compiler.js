@@ -3,7 +3,7 @@
 import React from 'react';
 
 // types
-import type {Element} from 'react';
+import type {Element, Node} from 'react';
 export type TConfig = {
   elementDelimiter: string,
   modifierDelimiter: string,
@@ -97,7 +97,7 @@ class Compiler {
     };
   }
 
-  traverseChild(child: Element<any>, parentClass: string) {
+  traverseChild(child: Element<any>, parentClass: string, rootChildren: Node) {
     if (React.isValidElement(child)) {
       let {className} = child.props;
       let usedParentClass = parentClass;
@@ -114,19 +114,25 @@ class Compiler {
       return React.cloneElement(
         child,
         props,
-        Array.isArray(child.props.children)
+        child.props.children === rootChildren
+          ? child.props.children
+          : Array.isArray(child.props.children)
           ? React.Children.map(child.props.children, (child: Element<any>) => {
-              return this.traverseChild(child, usedParentClass);
+              return this.traverseChild(child, usedParentClass, rootChildren);
             })
-          : this.traverseChild(child.props.children, usedParentClass)
+          : this.traverseChild(
+              child.props.children,
+              usedParentClass,
+              rootChildren
+            )
       );
     } else {
       return child;
     }
   }
 
-  traverse = (root: Element<any>) => {
-    return this.traverseChild(root, '');
+  traverse = (root: Element<any>, rootChildren: Node) => {
+    return this.traverseChild(root, '', rootChildren);
   };
 
   setStrict(isStrict: boolean) {
