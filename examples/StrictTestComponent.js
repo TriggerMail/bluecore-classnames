@@ -26,24 +26,17 @@ export class StrictTestComponent extends Component<TProps> {
       <div
         className={{
           className: 'my-base-class',
-          element: 'base',
-          _qaClassName: 'test-base'
+          element: 'base'
         }}
       >
         <div className={cx('header')}>Header</div>
         <div className={cx('main')}>
-          <div className={cx('first', ['hover', 'active'], 'test-first')}>
-            First
-          </div>
+          <div className={cx('first', ['hover', 'active'])}>First</div>
           <div
-            className={cx(
-              'second',
-              {
-                active: true,
-                hovered: false
-              },
-              'test-second'
-            )}
+            className={cx('second', {
+              active: true,
+              hovered: false
+            })}
           >
             {this.props.children}
           </div>

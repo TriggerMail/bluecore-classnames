@@ -7,8 +7,7 @@ import type {Element, Node} from 'react';
 export type TConfig = {
   elementDelimiter: string,
   modifierDelimiter: string,
-  isStrict: boolean,
-  stripQaClasses: boolean
+  isStrict: boolean
 };
 
 class Compiler {
@@ -17,8 +16,7 @@ class Compiler {
   static defaultConfig: TConfig = {
     elementDelimiter: '_',
     modifierDelimiter: '--',
-    isStrict: true,
-    stripQaClasses: false
+    isStrict: true
   };
 
   constructor(config: TConfig = {}) {
@@ -43,7 +41,6 @@ class Compiler {
     let modifiers = null;
     let newParentClass = parentClass;
     let modifiersClasses = '';
-    let _qaClassName = null;
 
     if (typeof config == 'string') {
       if (this.config.isStrict) {
@@ -58,11 +55,6 @@ class Compiler {
     } else {
       element = config.element;
       modifiers = config.modifiers;
-      _qaClassName = config._qaClassName;
-    }
-
-    if (this.config.stripQaClasses) {
-      _qaClassName = null;
     }
 
     if (element) {
@@ -89,8 +81,7 @@ class Compiler {
       className: [
         config.className || '',
         element ? newParentClass : undefined,
-        modifiersClasses,
-        _qaClassName
+        modifiersClasses
       ]
         .filter((val: any) => Boolean(val))
         .join(' ')

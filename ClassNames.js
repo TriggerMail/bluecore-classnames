@@ -12,12 +12,10 @@ const toModifiers = function(modifiersList: string[]): {[string]: boolean} {
 
 export default function(
   element: string,
-  modifiers?: string | string[] | {[string]: boolean},
-  qaClassName?: string
+  modifiers?: string | string[] | {[string]: boolean}
 ) {
   return {
     element,
-    modifiers: Array.isArray(modifiers) ? toModifiers(modifiers) : modifiers,
-    _qaClassName: qaClassName
+    modifiers: Array.isArray(modifiers) ? toModifiers(modifiers) : modifiers
   };
 }
