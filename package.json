@@ -11,10 +11,10 @@
   ],
   "main": "dist/index.js",
   "scripts": {
-    "test": "./node_modules/jest-cli/bin/jest.js",
-    "lint": "./node_modules/.bin/eslint --ext .js .",
-    "build": "./node_modules/webpack/bin/webpack.js --progress",
-    "prepublish": "npm run build",
+    "test": "jest",
+    "lint": "eslint --ext .js .",
+    "build": "webpack --progress",
+    "prepublish": "yarn build",
     "flow": "flow"
   },
   "repository": {
@@ -28,17 +28,17 @@
   },
   "homepage": "https://github.com/TriggerMail/bluecore-classnames",
   "peerDependencies": {
-    "react": ">=16.8.6"
+    "react": "^18.2.0"
   },
   "devDependencies": {
-    "@babel/core": "7.8.4",
-    "@babel/plugin-proposal-class-properties": "7.8.3",
-    "@babel/preset-env": "7.8.4",
-    "@babel/preset-flow": "7.8.3",
-    "@babel/preset-react": "7.8.3",
-    "@testing-library/react": "9.4.0",
-    "babel-eslint": "10.0.3",
-    "babel-loader": "8.0.6",
+    "@babel/core": "7.21.4",
+    "@babel/plugin-proposal-class-properties": "7.18.6",
+    "@babel/preset-env": "7.21.4",
+    "@babel/preset-flow": "7.21.4",
+    "@babel/preset-react": "7.18.6",
+    "@testing-library/react": "14.0.0",
+    "babel-eslint": "10.1.0",
+    "babel-loader": "9.1.2",
     "eslint": "6.8.0",
     "eslint-config-prettier": "6.10.0",
     "eslint-config-standard-jsx": "8.1.0",
@@ -52,13 +52,13 @@
     "eslint-plugin-react-hooks": "1.7.0",
     "flow-bin": "0.118.0",
     "husky": "3.1.0",
-    "jest-cli": "26.6.3",
+    "jest-cli": "29.5.0",
     "prettier": "1.19.1",
-    "react": "16.12.0",
-    "react-dom": "16.12.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "serialize-javascript": "3.1.0",
-    "webpack": "5.37.0",
-    "webpack-cli": "4.7.0"
+    "webpack": "5.79.0",
+    "webpack-cli": "5.0.1"
   },
   "jest": {
     "transform": {
